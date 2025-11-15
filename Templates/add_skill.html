@@ -1,0 +1,26 @@
+{% extends "base.html" %}
+{% block content %}
+<h2>Add a Skill</h2>
+
+<form method="POST">
+    <input type="text" name="skill_name" placeholder="Skill Name" required><br>
+    <textarea name="description" placeholder="Skill Description"></textarea><br>
+
+    <label>Difficulty:</label>
+    <select name="difficulty">
+        <option value="easy">Easy</option>
+        <option value="moderate">Moderate</option>
+        <option value="difficult">Difficult</option>
+    </select><br>
+
+    <label>Rarity:</label>
+    <select name="rarity">
+        <option value="common">Common</option>
+        <option value="uncommon">Uncommon</option>
+        <option value="rare">Rare</option>
+    </select><br>
+
+    <button type="submit">Submit</button>
+</form>
+
+{% endblock %}

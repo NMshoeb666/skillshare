@@ -1,0 +1,18 @@
+{% extends "base.html" %}
+{% block content %}
+
+<h2>Explore Skills</h2>
+
+<ul>
+{% for s in skills %}
+    <li>
+        <strong>{{ s.name }}</strong> — taught by {{ s.teacher }}  
+        <br>
+        Earn: {{ s.points_earn }} | Spend: {{ s.points_spend }}
+        <br>
+        <a href="/learn/{{ s.id }}"><button>Learn</button></a>
+    </li>
+{% endfor %}
+</ul>
+
+{% endblock %}

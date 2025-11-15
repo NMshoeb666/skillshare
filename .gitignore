@@ -1,0 +1,11 @@
+# Virtual Environment
+venv/
+
+# Python cache
+__pycache__/
+*.pyc
+
+# Secrets file (if you have one)
+# This prevents your password from being uploaded
+config.py 
+.env

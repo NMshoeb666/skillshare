@@ -1,0 +1,17 @@
+{% extends "base.html" %}
+{% block content %}
+
+<h2>Hello, {{ user.name }}!</h2>
+<p>Your Points: <strong>{{ user.points }}</strong></p>
+
+<a href="/add_skill"><button>Add a Skill</button></a>
+<a href="/explore"><button>Explore Skills</button></a>
+
+<h3>Your Skills</h3>
+<ul>
+{% for skill in skills %}
+    <li>{{ skill.name }} — Earn {{ skill.points_earn }}</li>
+{% endfor %}
+</ul>
+
+{% endblock %}

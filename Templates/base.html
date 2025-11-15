@@ -1,0 +1,30 @@
+<!doctype html>
+<html>
+<head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>SkillShare</title>
+<link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+  <div class="nav">
+    <a href="/">Home</a>
+    {% if session.user_id %}
+      <a href="/dashboard">Dashboard</a>
+      <a href="/explore">Explore</a>
+      <a href="/add_skill">Add Skill</a>
+      <a href="/logout">Logout</a>
+    {% else %}
+      <a href="/login">Login</a><a href="/register">Register</a>
+    {% endif %}
+  </div>
+  <div class="container">
+    {% with messages = get_flashed_messages(with_categories=true) %}
+      {% if messages %}
+        <ul class="flashes">
+          {% for cat,msg in messages %}<li class="flash {{cat}}">{{msg}}</li>{% endfor %}
+        </ul>
+      {% endif %}
+    {% endwith %}
+    {% block content %}{% endblock %}
+  </div>
+</body>
+</html>

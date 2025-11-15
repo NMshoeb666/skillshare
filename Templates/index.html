@@ -1,0 +1,10 @@
+{% extends 'base.html' %}{% block content %}
+<h1>Welcome to SkillShare</h1>
+<p>Exchange skills, earn points, learn from community.</p>
+{% if not session.user_id %}
+  <a href="/login"><button>Login</button></a>
+  <a href="/register"><button>Register</button></a>
+{% else %}
+  <a href="/dashboard"><button>Dashboard</button></a>
+{% endif %}
+{% endblock %}

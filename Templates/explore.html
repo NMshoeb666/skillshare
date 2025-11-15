@@ -6,11 +6,11 @@
 <ul>
 {% for s in skills %}
     <li>
-        <strong>{{ s.name }}</strong> — taught by {{ s.teacher }}  
+       <strong>{{ s.skill_name }}</strong> — taught by {{ s.teacher }}
         <br>
-        Earn: {{ s.points_earn }} | Spend: {{ s.points_spend }}
+        Spend: {{ s.points_spend }}
         <br>
-        <a href="/learn/{{ s.id }}"><button>Learn</button></a>
+        <a href="/learn/{{ s.skill_id }}"><button>Learn</button></a>
     </li>
 {% endfor %}
 </ul>

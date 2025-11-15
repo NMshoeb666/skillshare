@@ -89,12 +89,34 @@ def add_skill():
         flash('Skill added','success'); return redirect(url_for('dashboard'))
     return render_template('add_skill.html')
 
-@app.route('/explore')
+@app.route('/explore', methods=['GET', 'POST'])
 def explore():
-    if 'user_id' not in session: return redirect(url_for('login'))
-    db = get_db(); cursor = db.cursor(dictionary=True)
-    cursor.execute("SELECT s.*, u.name as teacher FROM skills s JOIN users u ON s.user_id = u.user_id ORDER BY s.points_earn DESC")
-    skills = cursor.fetchall(); cursor.close(); db.close()
+    if 'user_id' not in session:
+        return redirect(url_for('login'))
+
+    db = get_db()
+    cursor = db.cursor(dictionary=True)
+
+    if request.method == 'POST':
+        query = request.form['query'].strip()
+        cursor.execute("""
+            SELECT s.*, u.name as teacher
+            FROM skills s
+            JOIN users u ON s.user_id = u.user_id
+            WHERE s.skill_name LIKE %s
+            ORDER BY s.points_earn DESC
+        """, (f"%{query}%",))
+    else:
+        cursor.execute("""
+            SELECT s.*, u.name as teacher
+            FROM skills s
+            JOIN users u ON s.user_id = u.user_id
+            ORDER BY s.points_earn DESC
+        """)
+
+    skills = cursor.fetchall()
+    cursor.close()
+    db.close()
     return render_template('explore.html', skills=skills)
 @app.route('/learn/<int:skill_id>', methods=['GET', 'POST'])
 def learn(skill_id):

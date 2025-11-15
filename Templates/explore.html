@@ -3,14 +3,19 @@
 
 <h2>Explore Skills</h2>
 
+<form method="POST" action="{{ url_for('explore') }}">
+  <input type="text" name="query" placeholder="Search skills..." required>
+  <button type="submit">Search</button>
+</form>
+
 <ul>
 {% for s in skills %}
-    <li>
+    <li class="skill-card">
        <strong>{{ s.skill_name }}</strong> — taught by {{ s.teacher }}
         <br>
         Spend: {{ s.points_spend }}
         <br>
-        <a href="/learn/{{ s.skill_id }}"><button>Learn</button></a>
+        <a href="{{ url_for('learn', skill_id=s.skill_id) }}"><button>Learn</button></a>
     </li>
 {% endfor %}
 </ul>

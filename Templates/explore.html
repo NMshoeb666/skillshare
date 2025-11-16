@@ -1,23 +1,339 @@
 {% extends "base.html" %}
 {% block content %}
 
-<h2>Explore Skills</h2>
+<style>
+/* Explore page specific styles that complement base CSS */
+.explore-header {
+  text-align: center;
+  margin-bottom: 60px;
+}
 
-<form method="POST" action="{{ url_for('explore') }}">
-  <input type="text" name="query" placeholder="Search skills..." required>
+.search-form {
+  display: flex;
+  gap: 20px;
+  max-width: 800px;
+  margin: 0 auto 60px;
+  align-items: stretch;
+}
+
+.search-form input {
+  flex: 1;
+  margin: 0;
+}
+
+.search-form button {
+  margin: 0;
+  padding: 20px 48px;
+  white-space: nowrap;
+}
+
+.skills-grid {
+  display: grid;
+  gap: 32px;
+}
+
+/* Enhanced skill card for explore page */
+.skill-card {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.skill-header {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  flex-wrap: wrap;
+}
+
+.skill-name {
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: 1.5rem;
+  font-weight: 800;
+  color: var(--text-primary);
+  margin: 0;
+  letter-spacing: -0.02em;
+}
+
+.skill-teacher {
+  color: var(--text-secondary);
+  font-size: 1rem;
+  font-weight: 600;
+}
+
+.skill-teacher::before {
+  content: '—';
+  margin: 0 8px;
+  color: var(--text-light);
+}
+
+/* Premium trust score badge */
+.trust-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  background: linear-gradient(135deg, #eff6ff 0%, #dbeafe 100%);
+  padding: 8px 18px;
+  border-radius: 20px;
+  font-size: 0.95rem;
+  font-weight: 700;
+  color: #1e40af;
+  border: 2px solid #bfdbfe;
+  box-shadow: 
+    0 4px 12px rgba(59, 130, 246, 0.15),
+    inset 0 1px 0 rgba(255, 255, 255, 0.8);
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  position: relative;
+  overflow: hidden;
+}
+
+.trust-badge::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.5), transparent);
+  transition: left 0.6s ease;
+}
+
+.trust-badge:hover {
+  transform: translateY(-2px);
+  box-shadow: 
+    0 8px 20px rgba(59, 130, 246, 0.25),
+    inset 0 1px 0 rgba(255, 255, 255, 0.9);
+  border-color: #93c5fd;
+}
+
+.trust-badge:hover::before {
+  left: 100%;
+}
+
+.trust-score-text {
+  font-weight: 800;
+  letter-spacing: 0.5px;
+}
+
+/* Star rating system with partial fill support */
+.star-rating {
+  display: inline-flex;
+  gap: 3px;
+  align-items: center;
+}
+
+.star-container {
+  position: relative;
+  display: inline-block;
+  width: 18px;
+  height: 18px;
+}
+
+.star-icon {
+  width: 100%;
+  height: 100%;
+  display: block;
+}
+
+/* Animated star glow */
+@keyframes starGlow {
+  0%, 100% {
+    filter: drop-shadow(0 0 2px rgba(251, 191, 36, 0.4));
+  }
+  50% {
+    filter: drop-shadow(0 0 6px rgba(251, 191, 36, 0.8));
+  }
+}
+
+.star-filled {
+  fill: #fbbf24;
+  animation: starGlow 3s ease-in-out infinite;
+}
+
+.star-empty {
+  fill: #e2e8f0;
+}
+
+/* Gradient for partial stars */
+.star-gradient-container {
+  position: relative;
+}
+
+/* Cost badge */
+.cost-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 20px;
+  background: linear-gradient(135deg, #fef3c7 0%, #fde68a 100%);
+  border: 2px solid #fcd34d;
+  border-radius: 16px;
+  color: #92400e;
+  font-weight: 700;
+  font-size: 1rem;
+  box-shadow: 
+    0 4px 12px rgba(245, 158, 11, 0.15),
+    inset 0 1px 0 rgba(255, 255, 255, 0.6);
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.cost-badge:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 20px rgba(245, 158, 11, 0.25);
+}
+
+.cost-icon {
+  font-size: 1.2rem;
+  filter: drop-shadow(0 2px 4px rgba(146, 64, 14, 0.2));
+}
+
+/* Skill actions */
+.skill-actions {
+  margin-top: 8px;
+}
+
+.skill-actions a {
+  text-decoration: none;
+  display: inline-block;
+}
+
+.schedule-button {
+  width: auto;
+  margin: 0;
+  padding: 18px 42px;
+  font-size: 0.95rem;
+  letter-spacing: 1.2px;
+}
+
+/* Empty state */
+.empty-state {
+  text-align: center;
+  padding: 80px 40px;
+  color: var(--text-secondary);
+}
+
+.empty-state-icon {
+  font-size: 4rem;
+  margin-bottom: 20px;
+  opacity: 0.3;
+}
+
+.empty-state-text {
+  font-size: 1.3rem;
+  font-weight: 600;
+  color: var(--text-light);
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .search-form {
+    flex-direction: column;
+    gap: 12px;
+  }
+  
+  .search-form button {
+    width: 100%;
+  }
+  
+  .skill-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 12px;
+  }
+  
+  .skill-name {
+    font-size: 1.3rem;
+  }
+  
+  .trust-badge,
+  .cost-badge {
+    font-size: 0.9rem;
+  }
+}
+</style>
+
+<div class="explore-header">
+  <h2>Explore Skills</h2>
+</div>
+
+<form method="POST" action="{{ url_for('explore') }}" class="search-form">
+  <input type="text" name="query" placeholder="Search for skills, teachers, or categories..." required>
   <button type="submit">Search</button>
 </form>
 
-<ul>
-{% for s in skills %}
+{% if skills %}
+  <ul class="skills-grid">
+  {% for s in skills %}
     <li class="skill-card">
-       <strong>{{ s.skill_name }}</strong> — taught by {{ s.teacher }}
-        <br>
-        Cost: {{ s.points_spend }} points
-        <br>
-        <a href="{{ url_for('schedule_session', skill_id=s.skill_id) }}"><button>Schedule Session</button></a>
+      <div class="skill-header">
+        <span class="skill-name">{{ s.skill_name }}</span>
+        <span class="skill-teacher">taught by {{ s.teacher }}</span>
+        
+        {% if s.trust_score %}
+          <div class="trust-badge">
+            <span class="trust-score-text">{{ s.trust_score }}/5</span>
+            <div class="star-rating">
+              {% set rating = s.trust_score | float %}
+              {% set full_stars = rating | int %}
+              {% set partial = rating - full_stars %}
+              {% set empty_stars = 5 - full_stars - (1 if partial > 0 else 0) %}
+              
+              {# Full stars #}
+              {% for i in range(full_stars) %}
+                <span class="star-container">
+                  <svg class="star-icon" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                    <path class="star-filled" d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/>
+                  </svg>
+                </span>
+              {% endfor %}
+              
+              {# Partial star #}
+              {% if partial > 0 %}
+                <span class="star-container star-gradient-container">
+                  <svg class="star-icon" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                    <defs>
+                      <linearGradient id="star-gradient-{{ loop.index }}">
+                        <stop offset="{{ (partial * 100) | int }}%" stop-color="#fbbf24" />
+                        <stop offset="{{ (partial * 100) | int }}%" stop-color="#e2e8f0" />
+                      </linearGradient>
+                    </defs>
+                    <path fill="url(#star-gradient-{{ loop.index }})" d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/>
+                  </svg>
+                </span>
+              {% endif %}
+              
+              {# Empty stars #}
+              {% for i in range(empty_stars) %}
+                <span class="star-container">
+                  <svg class="star-icon" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                    <path class="star-empty" d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/>
+                  </svg>
+                </span>
+              {% endfor %}
+            </div>
+          </div>
+        {% endif %}
+      </div>
+      
+      <div class="cost-badge">
+        <span class="cost-icon">💰</span>
+        <span>{{ s.points_spend }} points</span>
+      </div>
+      
+      <div class="skill-actions">
+        <a href="{{ url_for('schedule_session', skill_id=s.skill_id) }}">
+          <button class="schedule-button">Schedule Session</button>
+        </a>
+      </div>
     </li>
-{% endfor %}
-</ul>
+  {% endfor %}
+  </ul>
+{% else %}
+  <div class="empty-state">
+    <div class="empty-state-icon">🔍</div>
+    <p class="empty-state-text">No skills found. Try a different search!</p>
+  </div>
+{% endif %}
 
 {% endblock %}

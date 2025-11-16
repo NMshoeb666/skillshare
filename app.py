@@ -166,7 +166,7 @@ def schedule_session(skill_id):
     # Check if learner has enough points (cost is points_spend)
     cost = skill['points_spend']
     if learner_points < cost:
-        flash(f'Not enough points. You need {cost}, but you only have {learner_points}.','danger')
+        flash(f'Not enough points. You need {-cost}, but you only have {learner_points}.','danger')
         cursor.close(); db.close()
         return redirect(url_for('explore'))
 

@@ -13,9 +13,9 @@
     <li class="skill-card">
        <strong>{{ s.skill_name }}</strong> — taught by {{ s.teacher }}
         <br>
-        Spend: {{ s.points_spend }}
+        Cost: {{ s.points_spend }} points
         <br>
-        <a href="{{ url_for('learn', skill_id=s.skill_id) }}"><button>Learn</button></a>
+        <a href="{{ url_for('schedule_session', skill_id=s.skill_id) }}"><button>Schedule Session</button></a>
     </li>
 {% endfor %}
 </ul>

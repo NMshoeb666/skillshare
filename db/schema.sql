@@ -43,3 +43,9 @@ CREATE TABLE IF NOT EXISTS feedback (
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     FOREIGN KEY (match_id) REFERENCES matches(match_id) ON DELETE CASCADE
 );
+
+ALTER TABLE skills ADD availability TEXT;
+
+ALTER TABLE matches ADD booked_slot VARCHAR(255);
+
+ALTER TABLE matches MODIFY status ENUM('pending', 'completed', 'booked');

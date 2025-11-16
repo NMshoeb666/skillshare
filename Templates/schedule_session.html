@@ -1,0 +1,27 @@
+{% extends "base.html" %}
+{% block content %}
+<h2>Schedule Session: {{ skill.skill_name }}</h2>
+
+<div class="skill-card">
+    <p><strong>Teacher:</strong> {{ skill.teacher_name }}</p>
+    <p><strong>Description:</strong> {{ skill.description or 'No description provided.' }}</p>
+    <p><strong>Cost:</strong> {{ skill.points_spend }} points</p>
+    <p><strong>Your Current Points:</strong> {{ learner_points }}</p>
+</div>
+
+<h3>Select an Available Slot</h3>
+<form method="POST" action="{{ url_for('book_session', skill_id=skill.skill_id) }}">
+    {% if not slots %}
+        <p>This teacher has not listed any available slots. Please check back later.</p>
+    {% else %}
+        {% for slot in slots %}
+            <label style="display: block; margin: 10px 0; padding: 10px; background: #f9f9f9; border-radius: 8px;">
+                <input type="radio" name="selected_slot" value="{{ slot }}" required> {{ slot }}
+            </label>
+        {% endfor %}
+        <br>
+        <button type="submit">Book Session</button>
+    {% endif %}
+</form>
+
+{% endblock %}

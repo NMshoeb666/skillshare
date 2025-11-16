@@ -4,13 +4,48 @@
 <h2>Hello, {{ user.name }}!</h2>
 <p>Your Points: <strong>{{ user.points }}</strong></p>
 
-<a href="/add_skill"><button>Add a Skill</button></a>
-<a href="/explore"><button>Explore Skills</button></a>
+<div class="button-group">
+    <a href="/add_skill"><button>Add a Skill</button></a>
+    <a href="/explore"><button>Explore Skills</button></a>
+</div>
 
-<h3>Your Skills</h3>
+<h3>Your Skills (To Teach)</h3>
 <ul>
 {% for skill in skills %}
-    <li>{{ skill.name }} — Earn {{ skill.points_earn }}</li>
+    <li>{{ skill.skill_name }} — Earn {{ skill.points_earn }}</li>
+{% endfor %}
+</ul>
+
+
+<h3>Your Sessions</h3>
+<ul>
+{% if not matches %}
+    <li>No sessions booked or completed yet.</li>
+{% endif %}
+{% for match in matches %}
+    <li class="skill-card">
+        <strong>{{ match.skill_name }}</strong>
+        
+        {% if match.teacher_id == session.user_id %}
+            (Teaching to {{ match.learner_name }})
+        {% else %}
+            (Learning from {{ match.teacher_name }})
+        {% endif %}
+        <br>
+
+        Status: <strong>{{ match.status | capitalize }}</strong>
+        
+        {% if match.booked_slot %}
+            <br>Booked Slot: {{ match.booked_slot }}
+        {% endif %}
+
+        {% if match.status == 'booked' and match.learner_id == session.user_id %}
+            <br>
+            <a href="{{ url_for('feedback', match_id=match.match_id) }}">
+                <button class="secondary">Complete & Give Feedback</button>
+            </a>
+        {% endif %}
+    </li>
 {% endfor %}
 </ul>
 

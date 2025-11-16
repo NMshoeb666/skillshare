@@ -73,6 +73,14 @@ def dashboard():
     cursor.close(); db.close()
     return render_template('dashboard.html', user=user, skills=my_skills, matches=matches)
 
+@app.route('/home')
+def home():
+    if 'user_id' not in session:
+        return redirect(url_for('login'))
+    
+    # This page is just informational, so we just render the template.
+    return render_template('home.html')
+
 @app.route('/add_skill', methods=['GET','POST'])
 def add_skill():
     if 'user_id' not in session: return redirect(url_for('login'))

@@ -1,0 +1,98 @@
+{% extends 'base.html' %}
+{% block content %}
+
+    <div class="home-layout">
+
+        <div class="home-text">
+            <h1 class="home-title">Welcome to Skillshare!</h1>
+            <div class="home-title-underline"></div>
+            
+            <p class="home-description">
+                Your new community platform for sharing skills and learning from others.
+                Whether you're a master guitarist willing to teach or someone who wants to
+                learn coding, this is the place to connect, learn, and grow.
+            </p>
+            <p class="home-description">
+                Offer the skills you have, earn points, and spend them to learn
+                new skills from others in the community.
+            </p>
+        </div>
+
+        <div class="home-image">
+            <img src="https://cyclefest.sharingskills.co.uk/img/sharing-skills-full-logo.png" alt="Skill sharing illustration">
+        </div>
+    </div>
+
+    <hr class="hr-styled"> <div class="points-header">
+        <h2>How Our Point System Works</h2>
+        <p>Total points are a combination of <b>Base Points (Difficulty)</b> and a <b>Rarity Bonus</b>.</p>
+    </div>
+    
+    <div class="home-layout"> 
+        
+        <div style="flex: 1; min-width: 300px;">
+            <h3 class="points-header" style="font-size: 2rem; margin: 10px 0 20px 0;">1. Base Points (By Difficulty)</h3>
+            <table class="points-table">
+                <thead>
+                    <tr>
+                        <th>Difficulty</th>
+                        <th>Points Earned (Teaching)</th>
+                        <th>Points Spent (Learning)</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Easy</td>
+                        <td class="text-success">+5</td>
+                        <td class="text-danger">-5</td>
+                    </tr>
+                    <tr>
+                        <td>Moderate</td>
+                        <td class="text-success">+10</td>
+                        <td class="text-danger">-10</td>
+                    </tr>
+                    <tr>
+                        <td>Difficult</td>
+                        <td class="text-success">+20</td>
+                        <td class="text-danger">-20</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        
+        <div style="flex: 1; min-width: 300px;">
+            <h3 class="points-header" style="font-size: 2rem; margin: 10px 0 20px 0;">2. Rarity (Bonus / Penalty)</h3>
+            <table class="points-table">
+                <thead>
+                    <tr>
+                        <th>Rarity</th>
+                        <th>Earn Bonus</th>
+                        <th>Spend Extra Cost</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Common</td>
+                        <td class="text-success">+0</td>
+                        <td class="text-danger">-0</td>
+                    </tr>
+                    <tr>
+                        <td>Uncommon</td>
+                        <td class="text-success">+3</td>
+                        <td class="text-danger">-3</td>
+                    </tr>
+                    <tr>
+                        <td>Rare</td>
+                        <td class="text-success">+5</td>
+                        <td class="text-danger">-5</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+    
+    <div class="points-example">
+      <strong>Example:</strong> A 'Difficult' skill (Base: +20) that is also 'Rare' (Bonus: +5) will earn you <strong>25 points</strong> for teaching it.
+    </div>
+
+{% endblock %}

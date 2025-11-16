@@ -660,6 +660,157 @@ ul li:hover::before {
   margin-bottom: 20px;
 }
 
+/* === Styles for Logged-In Home Page === */
+
+/* --- 1. Layout --- */
+.home-layout {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-wrap: wrap; /* Allows stacking on small screens */
+  gap: 20px; /* Space between text and image */
+  margin-top: 20px; /* Moves content "more up" */
+}
+
+.home-text {
+  flex-basis: 50%; /* Takes at least 50% width */
+  flex-grow: 1;
+  min-width: 320px;
+  padding-left: 8%; /* This moves the text "to the right" */
+}
+
+.home-image {
+  flex-basis: 40%; /* Takes at least 40% width */
+  flex-grow: 1;
+  min-width: 320px;
+  text-align: center;
+}
+
+.home-image img {
+  max-width: 85%; /* Makes image smaller */
+  height: auto;
+  border-radius: 24px; /* Matches your .container radius */
+  box-shadow: 0 10px 30px rgba(0,0,0,0.15);
+}
+
+/* --- 2. Title Styling (Like "Hello Annie") --- */
+.home-title {
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: 3.5rem; 
+  font-weight: 700;
+  color: var(--primary); /* Uses your purple variable */
+  margin-bottom: 0.5rem;
+}
+
+.home-title-underline {
+  height: 5px;
+  width: 120px;
+  background: linear-gradient(90deg, var(--primary-light), var(--accent)); /* Uses your variables */
+  border-radius: 3px;
+  box-shadow: 0 4px 15px rgba(236, 72, 153, 0.5); /* Copied from h3::after */
+  margin-bottom: 2rem;
+}
+
+.home-description {
+  font-size: 1.1rem;
+  color: var(--text-secondary); /* The gray from your file */
+  line-height: 1.7;
+  margin-bottom: 1rem;
+}
+
+/* --- 3. Point System Table Styling --- */
+.points-table {
+  width: 100%;
+  border-collapse: collapse; /* Clean look */
+  margin-top: 20px;
+  border-radius: 18px; /* Match form inputs */
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.08);
+  overflow: hidden; /* To get rounded corners on table */
+  font-family: 'Inter', sans-serif;
+}
+
+.points-table thead tr {
+  background: var(--dark); /* Use your dark var */
+  color: #fff;
+  font-family: 'Space Grotesk', sans-serif;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.8px;
+}
+
+.points-table th, .points-table td {
+  padding: 20px;
+  text-align: center;
+}
+
+.points-table td {
+  color: var(--text-secondary);
+  font-weight: 500;
+}
+
+.points-table tbody tr {
+  border-bottom: 1px solid #e2e8f0; /* Match form border */
+  background: #fff;
+}
+
+.points-table tbody tr:nth-of-type(even) {
+  background: #f8fafc; /* Slight stripe */
+}
+
+.points-table tbody tr:last-of-type {
+  border-bottom: none;
+}
+
+.points-table .text-success {
+  color: var(--success); /* Use your variable */
+  font-weight: 700;
+}
+
+.points-table .text-danger {
+  color: var(--danger); /* Use your variable */
+  font-weight: 700;
+}
+
+/* --- 4. Table Headers & Utilities --- */
+.points-header {
+  text-align: center;
+  margin-bottom: 1rem;
+}
+
+.points-header h2 {
+  font-family: 'Space Grotesk', sans-serif;
+  color: var(--text-primary);
+  font-size: 2.8rem;
+  font-weight: 900;
+  margin: 40px 0 10px 0;
+  /* We don't use the h2 gradient here */
+}
+
+.points-header p {
+  font-size: 1.2rem;
+  color: var(--text-secondary);
+  line-height: 1.6;
+}
+
+.points-example {
+  background: linear-gradient(135deg, #eef2ff 0%, #fdf2f8 100%); /* Light primary/accent */
+  color: var(--text-primary);
+  padding: 20px 25px;
+  border-radius: 18px;
+  border: 2px solid var(--primary-light);
+  text-align: center;
+  font-weight: 500;
+  margin-top: 30px;
+}
+
+.hr-styled {
+  border: 0;
+  height: 2px;
+  background-image: linear-gradient(to right, transparent, var(--primary), transparent);
+  opacity: 0.3;
+  margin: 80px 0; /* from h3 margin */
+}
+
 /* === Responsive Design === */
 @media (max-width: 1024px) {
   .container {

@@ -99,29 +99,41 @@ def add_skill():
 @app.route('/explore')
 @app.route('/explore', methods=['GET', 'POST'])
 def explore():
-    if 'user_id' not in session: return redirect(url_for('login'))
-    db = get_db(); cursor = db.cursor(dictionary=True)
-    
+    if 'user_id' not in session:
+        return redirect(url_for('login'))
+
+    db = get_db()
+    cursor = db.cursor(dictionary=True)
+
     if request.method == 'POST':
         query = request.form['query'].strip()
         cursor.execute("""
-            SELECT s.*, u.name as teacher
+            SELECT s.*, u.name AS teacher,
+                   ROUND(AVG(f.rating), 1) AS trust_score
             FROM skills s
             JOIN users u ON s.user_id = u.user_id
+            LEFT JOIN matches m ON m.skill_id = s.skill_id
+            LEFT JOIN feedback f ON f.match_id = m.match_id
             WHERE s.skill_name LIKE %s AND s.user_id != %s
+            GROUP BY s.skill_id
             ORDER BY s.points_earn DESC
         """, (f"%{query}%", session['user_id']))
     else:
         cursor.execute("""
-            SELECT s.*, u.name as teacher
+            SELECT s.*, u.name AS teacher,
+                   ROUND(AVG(f.rating), 1) AS trust_score
             FROM skills s
             JOIN users u ON s.user_id = u.user_id
+            LEFT JOIN matches m ON m.skill_id = s.skill_id
+            LEFT JOIN feedback f ON f.match_id = m.match_id
             WHERE s.user_id != %s
+            GROUP BY s.skill_id
             ORDER BY s.points_earn DESC
         """, (session['user_id'],))
 
     skills = cursor.fetchall()
-    cursor.close(); db.close()
+    cursor.close()
+    db.close()
     return render_template('explore.html', skills=skills)
 
 # NEW ROUTE (replaces old /learn logic)

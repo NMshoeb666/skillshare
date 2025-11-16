@@ -225,7 +225,7 @@ def book_session(skill_id):
 
     # 1. Transfer points
     cursor.execute("UPDATE users SET points = points + %s WHERE user_id = %s", (earn_points, teacher_id))
-    cursor.execute("UPDATE users SET points = points - %s WHERE user_id = %s", (spend_points, learner_id))
+    cursor.execute("UPDATE users SET points = points + %s WHERE user_id = %s", (spend_points, learner_id))
 
     # 2. Create match record
     #
